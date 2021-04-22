@@ -1,0 +1,18 @@
+#spinner-fade {
+    background: #f7f7f7;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    text-align: center;
+    opacity: .8;
+    top: 0;
+}
+
+.default-spinner{
+    position: absolute;
+    margin: auto;
+    top: 50%;
+}
