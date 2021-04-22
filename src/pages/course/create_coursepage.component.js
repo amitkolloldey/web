@@ -70,7 +70,7 @@ function CreateCoursePage({props, dispatchCreateCourseAction, match, dispatchGet
                             </div>
                             <div className="form-group">
                                 <label htmlFor="objective">Course Objective</label>
-                                <ReactQuill theme="snow" ref={register({required: true})} onChange={setObjective}/>
+                                <ReactQuill theme="snow" onChange={setObjective}/>
                                 {!objective ? 'Please Enter Some Objective' : ''}
                             </div>
                             <div className="form-group">

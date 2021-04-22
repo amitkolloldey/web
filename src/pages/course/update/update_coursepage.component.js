@@ -97,7 +97,7 @@ function UpdateCoursePage({match, dispatchUpdateCourseAction, dispatchGetCourseB
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="objective">Course Objective</label>
-                                        <ReactQuill theme="snow" name='objective' ref={register({required: true})}
+                                        <ReactQuill theme="snow" name='objective'  
                                                     onChange={setObjective} defaultValue={course ? course.objective : objective} />
                                         {!objective ? 'Please Enter Some Objective' : ''}
                                     </div>
