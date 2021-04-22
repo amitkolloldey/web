@@ -8,7 +8,7 @@ import {toast} from "react-toastify";
 const Login = ({dispatchLoginAction}) => {
     let history = useHistory();
     const {register, handleSubmit, errors} = useForm();
-
+    const [name, setName] = useState('');
     const onSubmit = (data) => {
         dispatchLoginAction(data.phone, data.password, (response) => {
             if (response) {
@@ -26,7 +26,7 @@ const Login = ({dispatchLoginAction}) => {
                 <div className="mb-3">
                     <label htmlFor="phone" className="form-label">Phone</label>
                     <input type="text" className="form-control" id="phone" name='phone'
-                           placeholder="0173...." ref={register({required: true})}/>
+                           placeholder="0173...." ref={register({required: true})} defaultValue={name ? name : ''}/>
                     {errors.phone && (<p className='error'>Phone is required*</p>)}
                 </div>
                 <div className="mb-3">
