@@ -20,7 +20,8 @@ export const authMiddleware = ({dispatch, getState}) => next => action => {
 
     axios.defaults.headers.common['Authorization'] = `Bearer ${AUTH_TOKEN}`;
 
-    const BASE_URL = 'http://65.1.29.149/';
+    // const BASE_URL = 'http://65.1.29.149/';
+    const BASE_URL = 'https://fe80562f0b8d.ngrok.io/';
     const {url, method, success, data, postProcessSuccess, postProcessError} = action.payload;
     axios({
         method,
