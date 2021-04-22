@@ -65,13 +65,13 @@ function CreateCoursePage({props, dispatchCreateCourseAction, match, dispatchGet
                             </div>
                             <div className="form-group">
                                 <label htmlFor="description">Course Description</label>
-                                <ReactQuill theme="snow" name='description' onChange={setDescription}/>
-                                {!description ? 'Please Enter Some Description' : ''}
+                                {/*<ReactQuill theme="snow" name='description' onChange={setDescription}/>*/}
+                                {/*{!description ? 'Please Enter Some Description' : ''}*/}
                             </div>
                             <div className="form-group">
                                 <label htmlFor="objective">Course Objective</label>
-                                <ReactQuill theme="snow" name='objective' ref={register({required: true})} onChange={setObjective}/>
-                                {!objective ? 'Please Enter Some Objective' : ''}
+                                {/*<ReactQuill theme="snow" name='objective' ref={register({required: true})} onChange={setObjective}/>*/}
+                                {/*{!objective ? 'Please Enter Some Objective' : ''}*/}
                             </div>
                             <div className="form-group">
                                 <label htmlFor="passing_mark">Passing Mark</label>
