@@ -84,13 +84,8 @@ const MyCoursesPage = ({dispatchFetchCurrentUserAction, current_user, user, disp
                                                                                                         ago>{item.createdAt}</Moment> ago</small>
                                                     </div>
                                                     <div className="card-footer btns">
-                                                        <Link to={`/course_builder/edit/${item.id}`}
-                                                              className='join_link '>Edit</Link>
-                                                        <Link to={`/trainee_invite/${item.id}`}
-                                                              className='join_link'>Invite</Link>
-                                                        <Link to={`#`}
-                                                              className='join_link '
-                                                              onClick={(e) => showConfirmationModal(e, item.id)}>Delete</Link>
+
+
                                                         <Link to={`/courses/${item.id}`}
                                                               className='join_link view_btn'>View</Link>
                                                     </div>
@@ -104,56 +99,54 @@ const MyCoursesPage = ({dispatchFetchCurrentUserAction, current_user, user, disp
                                 }
                             </div>
                         </div>
-                    ) : ''
-                }
-                {
-                    user.role === 'Trainer' || user.role === 'Organization Admin' ? (
-                        <div>
-                            <h2 className='page_title'>My Courses</h2>
-                            <SearchForm onChange={(event) => {
-                                setSearchTerm(event.target.value)
-                            }}/>
-                            <div className='main_content row'>
-                                {
-                                    filteredData.length > 0 ? (
-                                            filteredData.map(item => (
-                                                <div className="col-4 p-3" key={item.id}>
-                                                    <div className="card_img">
-                                                        <img className="card-img-top"
-                                                             src={item.banner ? item.banner : 'https://stitch-api-storage-prod.s3.ap-south-1.amazonaws.com/1616589205883.png'}
-                                                             alt={item.title}/>
+                    ) : (
+                            <div>
+                                <h2 className='page_title'>My Courses</h2>
+                                <SearchForm onChange={(event) => {
+                                    setSearchTerm(event.target.value)
+                                }}/>
+                                <div className='main_content row'>
+                                    {
+                                        filteredData.length > 0 ? (
+                                                filteredData.map(item => (
+                                                    <div className="col-4 p-3" key={item.id}>
+                                                        <div className="card_img">
+                                                            <img className="card-img-top"
+                                                                 src={item.banner ? item.banner : 'https://stitch-api-storage-prod.s3.ap-south-1.amazonaws.com/1616589205883.png'}
+                                                                 alt={item.title}/>
+                                                        </div>
+                                                        <div className="card-body">
+                                                            <h5 className="card-title">{item.title}</h5>
+                                                            <p className="card-text">{item.shortDesc}</p>
+                                                        </div>
+                                                        <div className="card-footer pub_time">
+                                                            <small className="text-muted">Published <Moment fromNow
+                                                                                                            ago>{item.createdAt}</Moment> ago</small>
+                                                        </div>
+                                                        <div className="card-footer btns">
+                                                            <Link to={`/course_builder/edit/${item.id}`}
+                                                                  className='join_link '>Edit</Link>
+                                                            <Link to={`/trainee_invite/${item.id}`}
+                                                                  className='join_link'>Invite</Link>
+                                                            <Link to={`#`}
+                                                                  className='join_link '
+                                                                  onClick={(e) => showConfirmationModal(e, item.id)}>Delete</Link>
+                                                            <Link to={`/courses/${item.id}`}
+                                                                  className='join_link view_btn'>View</Link>
+                                                        </div>
+                                                        <Modal handleOnDelete={handleOnDelete}/>
                                                     </div>
-                                                    <div className="card-body">
-                                                        <h5 className="card-title">{item.title}</h5>
-                                                        <p className="card-text">{item.shortDesc}</p>
-                                                    </div>
-                                                    <div className="card-footer pub_time">
-                                                        <small className="text-muted">Published <Moment fromNow
-                                                                                                        ago>{item.createdAt}</Moment> ago</small>
-                                                    </div>
-                                                    <div className="card-footer btns">
-                                                        <Link to={`/course_builder/edit/${item.id}`}
-                                                              className='join_link '>Edit</Link>
-                                                        <Link to={`/trainee_invite/${item.id}`}
-                                                              className='join_link'>Invite</Link>
-                                                        <Link to={`#`}
-                                                              className='join_link '
-                                                              onClick={(e) => showConfirmationModal(e, item.id)}>Delete</Link>
-                                                        <Link to={`/courses/${item.id}`}
-                                                              className='join_link view_btn'>View</Link>
-                                                    </div>
-                                                    <Modal handleOnDelete={handleOnDelete}/>
-                                                </div>
-                                            ))
-                                        ) :
-                                        (
-                                            <NotFound/>
-                                        )
-                                }
+                                                ))
+                                            ) :
+                                            (
+                                                <NotFound/>
+                                            )
+                                    }
+                                </div>
                             </div>
-                        </div>
-                    ) : ''
+                    )
                 }
+
             </div>
         </div>
     ) : 'Loading'

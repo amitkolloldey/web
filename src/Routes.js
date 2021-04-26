@@ -30,6 +30,8 @@ import ExamAllSubmissions from "./pages/submissionspage";
 import MyCoursesPage from "./pages/mycoursespage.component";
 import MyOrgsPage from "./pages/myorgspage.component";
 import EditOrgPage from "./pages/editorgpage.component";
+import AssignTrainerPage from "./pages/assign_trainerpage.component";
+import AssignTraineePage from "./pages/assign_traineepage.component";
 
 
 const Routes = ({user }) => {
@@ -81,6 +83,9 @@ const Routes = ({user }) => {
                     <Route exact path={'/assign_category/:courseId'} component={AssignCategoryPage}/>
 
                     <Route exact path='/trainer_invite/:orgId' component={CreateTrainerInvitePage}/>
+
+                    <Route exact path='/trainer_assign/:orgId/:courseId' component={AssignTrainerPage}/>
+                    <Route exact path='/trainee_assign/:courseId' component={AssignTraineePage}/>
 
                     <Route exact path='/course_builder/:orgId' component={CreateCoursePage}/>
 

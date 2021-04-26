@@ -1,17 +1,16 @@
 import React from 'react'
 import {enterResetEmail} from "../redux/actions/authActions";
 import {connect} from "react-redux";
-import {Link, useHistory} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {toast} from "react-toastify";
 
 const Reset = ({dispatchEnterResetAction}) => {
-    let history = useHistory();
     const {register, handleSubmit, errors} = useForm();
     const onSubmit = (data) => {
         dispatchEnterResetAction(data.email, (response) => {
             if (response) {
-                setTimeout(() => window.location.replace('/reset'), 300)
+                setTimeout(() => window.location.replace('/#/reset'), 300)
             }
             toast.success('Otp Sent to Your Email!');
         }, (message) => toast.error(message))

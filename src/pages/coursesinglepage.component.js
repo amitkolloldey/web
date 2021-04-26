@@ -2,15 +2,17 @@ import React, {useEffect, useState} from 'react'
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import NotFound from "../components/notfound.component";
-import {deleteCourseById, fetchAllCourses, getCourseById} from "../redux/actions/courseAction";
+import {getCourseById} from "../redux/actions/courseAction";
 import Reviews from "../components/reviews.component";
 import {getCurrentUser} from "../redux/actions/authActions";
 import {toast} from "react-toastify";
+import {traineeCertificate} from "../redux/actions/userAction";
 
-const CourseSinglePage = ({loading, match, dispatchGetCourseByIdAction, courses, user, OrgsList, TraineeCoursesList, TrainerCoursesList, dispatchFetchCurrentUserAction}) => {
+const CourseSinglePage = ({loading, dispatchTraineeCertificate, match, dispatchGetCourseByIdAction, user, TraineeCoursesList, TrainerCoursesList, dispatchFetchCurrentUserAction}) => {
 
     const [title, setTitle] = useState('');
     const [exams, setExams] = useState('');
+    const [orgId, setOrgid] = useState('');
     const [banner, setBanner] = useState('');
     const [shortDesc, setShortDesc] = useState('');
     const [description, setDescription] = useState('');
@@ -24,6 +26,7 @@ const CourseSinglePage = ({loading, match, dispatchGetCourseByIdAction, courses,
     const [org, setOrg] = useState('');
     const [createdAt, setCreatedAt] = useState('');
     const [trainees, setTrainee] = useState('');
+
 
     const {courseId} = match.params;
 
@@ -43,6 +46,7 @@ const CourseSinglePage = ({loading, match, dispatchGetCourseByIdAction, courses,
                 setCategories(response.data.categories);
                 setChapters(response.data.Chapters);
                 setComments(response.data.Comments);
+                setOrgid(response.data.orgId);
                 setOrg(response.data.Org);
                 setObjectives(response.data.objective);
             }, (message) => toast.error(message));
@@ -55,6 +59,15 @@ const CourseSinglePage = ({loading, match, dispatchGetCourseByIdAction, courses,
         }, (message) => toast.error(message))
     }, [dispatchFetchCurrentUserAction, user.userId]);
 
+    const onSubmit = (data) => {
+        dispatchTraineeCertificate(courseId, orgId, 'trainee_certificate', 'Please Grant Me a Certificate.', (res) => {
+            console.log(res)
+            // setTimeout(() => window.location.reload('/#/courses/' + courseId), 500)
+            toast.success('Your certificate request was issued successfully!');
+        })
+        return false;
+    }
+
     return (
         <div className='right_wrapper'>
             <div className='main_content'>
@@ -62,7 +75,8 @@ const CourseSinglePage = ({loading, match, dispatchGetCourseByIdAction, courses,
                     <div className="page_header course_header">
                         <center>
                             <img
-                                src={banner ? banner : 'https://stitch-api-storage-prod.s3.ap-south-1.amazonaws.com/1616589205883.png'} className="org_logo"/>
+                                src={banner ? banner : 'https://stitch-api-storage-prod.s3.ap-south-1.amazonaws.com/1616589205883.png'}
+                                className="org_logo" alt='course banner'/>
                         </center>
                         <div className="row d-flex align-items-center">
                             <div className="col-6 text-left">
@@ -76,16 +90,25 @@ const CourseSinglePage = ({loading, match, dispatchGetCourseByIdAction, courses,
                                 }
                                 {
                                     user.role === 'Trainee' && TraineeCoursesList && TraineeCoursesList.length && TraineeCoursesList.includes(parseInt(courseId)) ?
-                                                (
+                                        (
+                                            <>
+                                                {
                                                     exams.length ?
                                                         (
-                                                            <a className='back_to_main_course btn  join_link'
-                                                               href={'/exam_submission/' + exams[0].id}>
+                                                            <Link className='back_to_main_course btn  join_link ml-2'
+                                                                  to={'/exam_submission/' + exams[0].id}>
                                                                 Evaluate
-                                                            </a>
+                                                            </Link>
                                                         ) : ''
-                                                ) : ''
+                                                }
+
+                                                <button className='btn btn-success ml-2' onClick={onSubmit}><i
+                                                    className="fas fa-certificate"/> Request Certificate
+                                                </button>
+                                            </>
+                                        ) : ''
                                 }
+
                                 <button className='visitor_count mr-2'>Total Visits: {visitor_count}</button>
                             </div>
                         </div>
@@ -117,8 +140,8 @@ const CourseSinglePage = ({loading, match, dispatchGetCourseByIdAction, courses,
                                                                             {item.name}
                                                                         </div>
                                                                         <div className="designation">
-                                                                            <a href={'/profile_view/' + item.id}>View
-                                                                                Profile</a>
+                                                                            <Link to={'/profile_view/' + item.id}>View
+                                                                                Profile</Link>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -172,17 +195,18 @@ const CourseSinglePage = ({loading, match, dispatchGetCourseByIdAction, courses,
                                                         TraineeCoursesList && TraineeCoursesList.length && TraineeCoursesList.includes(parseInt(courseId)) ?
                                                             (
                                                                 <div className="link">
-                                                                    <a href={'/chapters/' + courseId + '/' + item.id}
-                                                                       className='view_btn join_link'>View
-                                                                        Chapter</a>
+                                                                    <Link to={'/chapters/' + courseId + '/' + item.id}
+                                                                          className='view_btn join_link'>View
+                                                                        Chapter</Link>
                                                                 </div>
                                                             ) : (
                                                                 TrainerCoursesList && TrainerCoursesList.length && TrainerCoursesList.includes(parseInt(courseId)) ?
                                                                     (
                                                                         <div className="link">
-                                                                            <a href={'/chapters/' + courseId + '/' + item.id}
-                                                                               className='view_btn join_link'>View
-                                                                                Chapter</a>
+                                                                            <Link
+                                                                                to={'/chapters/' + courseId + '/' + item.id}
+                                                                                className='view_btn join_link'>View
+                                                                                Chapter</Link>
                                                                         </div>
                                                                     ) : ''
                                                             )
@@ -200,10 +224,13 @@ const CourseSinglePage = ({loading, match, dispatchGetCourseByIdAction, courses,
         </div>
     )
 }
+
 const mapDispatchToProps = dispatch => ({
     dispatchGetCourseByIdAction: (courseId, onSuccess, onError) =>
         dispatch(getCourseById(courseId, onSuccess, onError)),
     dispatchFetchCurrentUserAction: (userId, onSuccess) => dispatch(getCurrentUser(userId, onSuccess)),
+    dispatchTraineeCertificate: (courseId, orgId, type, content, onSuccess, onError) =>
+        dispatch(traineeCertificate({courseId, orgId, type, content}, onSuccess, onError))
 })
 
 const mapStateToProps = (state) => (

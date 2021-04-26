@@ -56,7 +56,7 @@ function CreateEvaluation({course, user, dispatchCreateEvaluationAction, dispatc
 
     const onSubmit = (data) => {
         dispatchCreateEvaluationAction(course.id, user.userId, data.title, data.type, questions, () => {
-            setTimeout(() => window.location.replace('/course_builder/edit/' + course.id + '/5'), 300)
+            setTimeout(() => window.location.replace('/#/course_builder/edit/' + course.id + '/5'), 300)
             toast.success('Evaluation Created Successfully!');
         }, (message) => toast.error(message))
         return false;

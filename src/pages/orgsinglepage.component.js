@@ -4,8 +4,10 @@ import {fetchAllOrgs, getOrgById} from '../redux/actions/orgAction';
 import Courses from "../components/courses.component";
 import NotFound from "../components/notfound.component";
 import {Link} from "react-router-dom";
+import {getCurrentUser} from "../redux/actions/authActions";
+import {toast} from "react-toastify";
 
-const OrgSinglePage = ({match, dispatchGetOrgByIdAction, user, OrgsList}) => {
+const OrgSinglePage = ({match, dispatchGetOrgByIdAction, user, OrgsList, dispatchFetchCurrentUserAction}) => {
 
     const [name, setName] = useState('');
     const [key_people, setKeyPeople] = useState('');
@@ -33,6 +35,10 @@ const OrgSinglePage = ({match, dispatchGetOrgByIdAction, user, OrgsList}) => {
         }
     }, [dispatchGetOrgByIdAction, match.params]);
 
+    useEffect(() => {
+        dispatchFetchCurrentUserAction(user.userId, () => {
+        }, (message) => toast.error(message))
+    }, [dispatchFetchCurrentUserAction, user.userId]);
 
     return (
         <div className='right_wrapper'>
@@ -40,9 +46,9 @@ const OrgSinglePage = ({match, dispatchGetOrgByIdAction, user, OrgsList}) => {
                 <div className="single_page">
                     <div className="text-right mb-3 ">
                         {
-                            user.role === 'Trainer' && !OrgsList.includes(orgId) ? (
+                            OrgsList && user.role === 'Trainer'  && !OrgsList.includes(orgId) ? (
                                 <Link to={`/trainer_registration/${orgId}`}
-                                      className='join_link'>Join</Link>) : ''
+                                      className='join_link'> Join </Link>) : ''
                         }
                         {
                             OrgsList && user.role === 'Trainer' && OrgsList.includes(orgId) ? (
@@ -50,9 +56,8 @@ const OrgSinglePage = ({match, dispatchGetOrgByIdAction, user, OrgsList}) => {
                                     Course</Link>) : ''
                         }
                         {
-                            OrgsList && user.role === 'Organization Admin' && OrgsList.includes(orgId) ? (
-                                <Link to={`/trainer_invite/${orgId}`} className='join_link invite_btn'>Invite
-                                    Trainer</Link>) : ''
+                            OrgsList && user.role === 'Organization Admin' &&  OrgsList.includes(orgId) ? (
+                                <Link to={`/trainer_invite/${orgId}`} className='join_link invite_btn'>Invite Trainer</Link>) : ''
                         }
                     </div>
                     <div className="page_header">
@@ -150,12 +155,14 @@ const OrgSinglePage = ({match, dispatchGetOrgByIdAction, user, OrgsList}) => {
 const mapDispatchToProps = dispatch => ({
     dispatchGetOrgByIdAction: (orgId, onSuccess) =>
         dispatch(getOrgById(orgId, onSuccess)),
-    dispatchFetchAllOrgsAction: () => dispatch(fetchAllOrgs())
+    dispatchFetchAllOrgsAction: () => dispatch(fetchAllOrgs()),
+    dispatchFetchCurrentUserAction: (userId, onSuccess) => dispatch(getCurrentUser(userId, onSuccess)),
 })
 
 const mapStateToProps = (state) => ({
     loading: state.loading,
-    user: state.user
+    user: state.user,
+    OrgsList: state.users.OrgsList
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrgSinglePage)

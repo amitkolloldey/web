@@ -18,7 +18,7 @@ function CreateCoursePage({props, dispatchCreateCourseAction, match, dispatchGet
     const onSubmit = (data) => {
         dispatchCreateCourseAction(orgId, data.title, data.banner, data.shortDesc, description, objective, data.passing_mark, data.published, (response) => {
             if (response) {
-                setTimeout(() => window.location.replace('/course_builder/edit/'+response.data.id), 300)
+                setTimeout(() => window.location.replace('/#/course_builder/edit/'+response.data.id), 300)
             }
             toast.success('Course Created Successfully!');
         }, (message) => toast.error(message))

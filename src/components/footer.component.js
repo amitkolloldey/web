@@ -8,7 +8,7 @@ const Footer = () => (
             </div>
             <div className="col-md-6 text-right">
                 <div className="partners">
-                    <img src={process.env.PUBLIC_URL + '/partners.png'}  />
+                    <img src={process.env.PUBLIC_URL + '/partners.png'}  alt='partners'/>
                 </div>
             </div>
         </div>

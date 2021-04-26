@@ -42,7 +42,7 @@ function CreateChapter({course, dispatchCreateChapterAction,  dispatchDeleteChap
     const onSubmit = (e, data) => {
         e.preventDefault()
         dispatchCreateChapterAction(chapters, () => {
-            setTimeout(() => window.location.replace('/course_builder/edit/' + course.id + '/2'), 300)
+            setTimeout(() => window.location.replace('/#/course_builder/edit/' + course.id + '/2'), 300)
             toast.success('Chapters Created Successfully!');
         }, (message) => toast.error(message))
 
@@ -157,9 +157,7 @@ function CreateChapter({course, dispatchCreateChapterAction,  dispatchDeleteChap
                                                         <Link to={`#`}
                                                               className='btn btn-danger tbl_btn '
                                                               onClick={(e) => showConfirmationModal(e, item.id)}>Delete</Link>
-
-                                                        <Link to={`#`} target='_blank' className='btn btn-primary tbl_btn ml-2 mr-2'
-                                                              onClick={async function(e) {e.preventDefault(); await setSelectedChapter(item) ;   window.$('#editModal').modal({backdrop: 'static', keyboard: false, show: true})}}>Edit</Link>
+                                                        <Link to={`#`} target='_blank' className='btn btn-primary tbl_btn ml-2 mr-2' onClick={async function(e) {e.preventDefault(); await setSelectedChapter(item);   window.$('#editModal').modal({backdrop: 'static', keyboard: false, show: true})}}>Edit</Link>
                                                         <Link to={`/chapters/${course.id}/${item.id}`} target='_blank'
                                                               className='btn btn-dark tbl_btn'>Preview</Link>
                                                     </div>

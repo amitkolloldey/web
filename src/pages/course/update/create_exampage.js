@@ -82,7 +82,7 @@ function CreateExam({course, user, dispatchFetchAllChaptersAction, dispatchCreat
 
     const onSubmit = (data) => {
         dispatchCreateExamAction(course.id, chapter, user.userId, data.title, data.type, questions, () => {
-            setTimeout(() => window.location.replace('/course_builder/edit/' + course.id + '/4'), 300)
+            setTimeout(() => window.location.replace('/#/course_builder/edit/' + course.id + '/4'), 300)
             toast.success('Exam Created Successfully!');
         }, (message) => toast.error(message))
         return false;

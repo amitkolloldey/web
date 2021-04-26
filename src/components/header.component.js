@@ -6,7 +6,7 @@ const Header = () => (
         <div className="row">
             <div className="col-md-12 text-right">
                 <div className="logo">
-                    <Link to='/'><img src={process.env.PUBLIC_URL + '/logo.svg'}  /></Link>
+                    <Link to='/'><img src={process.env.PUBLIC_URL + '/logo.svg'}  alt='stitch logo'/></Link>
                 </div>
             </div>
         </div>

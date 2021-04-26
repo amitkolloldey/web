@@ -4,7 +4,7 @@ import {useForm} from "react-hook-form";
 import React, {useState} from "react";
 import {updateExam} from "../redux/actions/chapterAction";
 
-function EditEvaluationModal({selectedEvaluation,dispatchUpdateExamAction, course}) {
+function EditEvaluationModal({selectedEvaluation, dispatchUpdateExamAction, course}) {
 
     const {register, handleSubmit, errors} = useForm();
 
@@ -40,9 +40,13 @@ function EditEvaluationModal({selectedEvaluation,dispatchUpdateExamAction, cours
 
     const onSubmit = (data) => {
         dispatchUpdateExamAction( selectedEvaluation.id, data.title, data.type, questions, () => {
-            setTimeout(() => window.location.replace('/course_builder/edit/' + course.id + '/5'), 300)
+            setTimeout(() => window.location.replace('/#/course_builder/edit/' + course.id + '/5'), 300)
+            window.$('#editEvaluationModal').modal('hide');
             toast.success('Evaluation Updated Successfully!');
-        }, (message) => toast.error(message))
+        }, (message) => {
+            window.$('#editEvaluationModal').modal('hide');
+            toast.error(`Error: ${message}`);
+        })
         return false;
     }
 

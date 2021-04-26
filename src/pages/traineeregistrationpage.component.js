@@ -20,7 +20,7 @@ const TraineeRegistrationPage = ({loading, match, dispatchTraineeRequestAction, 
     const onSubmit = (data) => {
         dispatchTraineeRequestAction(data.content, data.type, data.courseId, (response) => {
             if (response) {
-                setTimeout(() => window.location.replace('/requests'), 300)
+                setTimeout(() => window.location.replace('/#/requests'), 300)
             }
             toast.success('Request Sent Successfully!');
         }, (message) => toast.error(message))

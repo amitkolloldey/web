@@ -5,6 +5,7 @@ import {toast} from "react-toastify";
 import {exam_submission, getExamById} from "../redux/actions/examAction";
 import {getCurrentUser} from "../redux/actions/authActions";
 import NotFoundPage from "./notfoundpage";
+import {Link} from "react-router-dom";
 
 const ExamSubmission = ({loading, match, dispatchGetExamByIdAction, dispatchExamSubmissionAction, dispatchFetchCurrentUserAction, TraineeCoursesList, user}) => {
 
@@ -25,7 +26,7 @@ const ExamSubmission = ({loading, match, dispatchGetExamByIdAction, dispatchExam
 
     const onSubmit = (data) => {
         dispatchExamSubmissionAction(examId, data.answers, () => {
-            setTimeout(() => window.location.replace('/exam_submission/' + examId), 300)
+            setTimeout(() => window.location.reload('/#/exam_submission/' + examId), 300)
             toast.success('Your answers Submitted Successfully!');
         })
         return false;
@@ -41,6 +42,12 @@ const ExamSubmission = ({loading, match, dispatchGetExamByIdAction, dispatchExam
 
     return (preview && preview === 'preview') || (TraineeCoursesList && TraineeCoursesList.length && courseId && TraineeCoursesList.includes(courseId)) ? (
         <div className='right_wrapper'>
+            <div className="text-right">
+                <Link className='back_to_main_course btn view_btn join_link mr-2' to={'/courses/' + courseId}>
+                    <i className="fas fa-arrow-left"/> Back to Course Details
+                </Link>
+            </div>
+
             <h2 className='page_title'>Submission Form</h2>
             <div className='main_content'>
                 <div className="request_form">

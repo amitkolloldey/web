@@ -12,6 +12,8 @@ const Courses = ({courses}) => {
             return val
         } else if (val.title.toLowerCase().includes(searchTerm.toLowerCase())) {
             return val
+        }else{
+            return []
         }
     })
 

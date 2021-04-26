@@ -7,6 +7,10 @@ export default function userReducer(state = [], action) {
     switch (action.type) {
         case constants.SET_ALL_USERS:
             return {...state, users: action.payload};
+        case constants.SET_ALL_TRAINERS:
+            return {...state, trainers: action.payload};
+        case constants.SET_ALL_TRAINEES:
+            return {...state, trainees: action.payload};
         // case constants.SET_SINGLE_USER:
         //     return {...state, single_user: action.payload};
         case constants.SET_SINGLE_USER:

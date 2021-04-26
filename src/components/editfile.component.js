@@ -2,15 +2,16 @@ import {connect} from "react-redux";
 import {toast} from "react-toastify";
 import {useForm} from "react-hook-form";
 import {chapterFileUpdate} from "../redux/actions/chapterAction";
+import React from "react";
 
 function EditFileModal({selectedFile, dispatchEditFileAction, course}) {
 
     const {register, handleSubmit, errors} = useForm();
 
     const onSubmit = (data) => {
-        dispatchEditFileAction(selectedFile.id, data.title, data.description, data.file, (res) => {
+        dispatchEditFileAction(selectedFile.id, data.title, data.description, data.file, () => {
             // console.log(res)
-            setTimeout(() => window.location.replace('/course_builder/edit/' + course.id + '/3'), 300)
+            setTimeout(() => window.location.replace('/#/course_builder/edit/' + course.id + '/3'), 300)
             window.$('#editFileModal').modal('hide');
             toast.success('File Updated Successfully!');
         }, (message) => {
@@ -55,7 +56,7 @@ function EditFileModal({selectedFile, dispatchEditFileAction, course}) {
                                 <input type="file" className="form-control" name='file' id="file"
                                        ref={register}/>
                                 <strong>
-                                    Uploaded File Link: <a href={selectedFile.url} target='_blank'>{selectedFile.url}</a>
+                                    Uploaded File Link: <a href={selectedFile.url} target='_blank' rel='noreferrer'>{selectedFile.url}</a>
                                 </strong>
                                 {errors.file && (<p className='error'>File is required*</p>)}
                             </div>

@@ -1152,3 +1152,79 @@ span.question {
 .quill .ql-editor p span {
     color: #555!important;
 }
+
+td svg.svg-inline--fa.fa-user {
+    width: 100px;
+    height: 100px;
+}
+
+.comment_flex {
+    display: inline-block;
+    width: 100%;
+}
+
+.comment_flex .single_comment_left {
+    width: 15%;
+    text-align: center;
+    padding: 10px;
+    float: left;
+    border-right: 1px solid #ccc;
+}
+
+.comment_flex .single_comment_right {
+    width: 85%;
+    padding: 10px;
+    float: left;
+}
+
+.comment_flex .image {
+    width: 100%;
+    background: none;
+    height: auto;
+}
+
+.comment_flex .image img {
+    height: 50px;
+    width: 50px;
+}
+
+.comment_flex .single_comment_right button.btn.btn-success {
+    font-size: 12px;
+    padding: 5px 10px;
+}
+
+.comment_content p {
+    margin: 0;
+}
+
+.comment_content {
+    padding: 10px;
+    border-radius: 6px;
+    background: #ddd;
+    margin-bottom: 15px;
+}
+
+.comment_content p {
+    margin: 0;
+}
+
+.comment_content {
+    padding: 10px;
+    border-radius: 6px;
+    background: #ddd;
+    margin-bottom: 15px;
+}
+
+.comment_form textarea {
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+}
+
+.comment_form {
+    margin-top: 20px;
+}
+.comment_form {
+    padding: 10px;
+    background: #eee;
+    margin-bottom: 20px;
+}

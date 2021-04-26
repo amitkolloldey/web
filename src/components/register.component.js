@@ -15,7 +15,7 @@ const Register = ({dispatchRegisterAction}) => {
         console.log(data)
         dispatchRegisterAction(data.name, data.email, data.password, data.phone, data.bio, data.address, data.pic, data.role, () => {
             toast.success('Account Created Successfully!');
-            history.push('/otp')
+            history.push('/#/otp')
         }, (message) => toast.error(message))
         return false
     }

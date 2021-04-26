@@ -27,7 +27,7 @@ function UpdateCoursePage({match, dispatchUpdateCourseAction, dispatchGetCourseB
     const onSubmit = (data) => {
         dispatchUpdateCourseAction(courseId, data.title, data.banner, data.shortDesc, description, objective, data.passing_mark, data.published, () => {
             toast.success('Course Updated Successfully!');
-            history.replace('/course_builder/edit/'+courseId+'/0')
+            history.replace('/#/course_builder/edit/'+courseId+'/0')
         }, (message) => toast.error(message))
         return false;
     }
@@ -56,7 +56,7 @@ function UpdateCoursePage({match, dispatchUpdateCourseAction, dispatchGetCourseB
                                 <Tab>Trainees</Tab>
                                 <Tab>Trainers</Tab>
                             </TabList>
-                            <TabPanel>
+                            <TabPanel forceRender={true}>
                                 <h2 className='form_heading'>
                                     Course Details Of {course && course.title}
                                 </h2>
@@ -134,7 +134,7 @@ function UpdateCoursePage({match, dispatchUpdateCourseAction, dispatchGetCourseB
                             <TabPanel>
                                 <CreateFiles course={course}/>
                             </TabPanel>
-                            <TabPanel>
+                            <TabPanel forceRender={true}>
                                 <CreateExam course={course}/>
                             </TabPanel>
                             <TabPanel>

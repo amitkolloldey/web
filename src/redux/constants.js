@@ -5,6 +5,8 @@ export const ACCOUNT_CREATED = 'ACCOUNT_CREATED';
 export const RESET_USER_INFO = 'RESET_USER_INFO';
 export const UPDATE_USER_INFO = 'UPDATE_USER_INFO';
 export const UPDATE_USER = 'UPDATE_USER';
+export const SET_ALL_TRAINERS = 'SET_ALL_TRAINERS';
+export const SET_ALL_TRAINEES = 'SET_ALL_TRAINEES';
 
 export const SET_ALL_ORGS = 'SET_ALL_ORGS';
 export const ADD_ORG = 'ADD_ORG';

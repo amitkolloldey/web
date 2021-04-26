@@ -1,22 +1,21 @@
 import React from 'react'
 import {otpUser} from "../redux/actions/authActions";
 import {connect} from "react-redux";
-import {Link, useHistory} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {toast} from "react-toastify";
 
 const Otp = ({dispatchOtpAction}) => {
-    let history = useHistory();
     const {register, handleSubmit, errors} = useForm();
     const onSubmit = (data) => {
         dispatchOtpAction(data.otp, (response) => {
             console.log(response)
             if (response.data && response.data.request && response.data.request.courseId) {
-                setTimeout(() => window.location.replace('/courses/' + response.data.request.courseId), 300)
+                setTimeout(() => window.location.replace('/#/courses/' + response.data.request.courseId), 300)
             } else if (response.data && response.data.request && response.data.request.orgId) {
-                setTimeout(() => window.location.replace('/orgs/'+ response.data.request.orgId), 300)
+                setTimeout(() => window.location.replace('/#/orgs/'+ response.data.request.orgId), 300)
             } else {
-                setTimeout(() => window.location.replace('/'), 300)
+                setTimeout(() => window.location.replace('/#/'), 300)
             }
             toast.success('Successfully Validated!');
         }, (message) => toast.error(message))

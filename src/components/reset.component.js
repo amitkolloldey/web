@@ -1,17 +1,16 @@
 import React from 'react'
 import {resetPass} from "../redux/actions/authActions";
 import {connect} from "react-redux";
-import {Link, useHistory} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {toast} from "react-toastify";
 
 const Reset = ({dispatchResetAction}) => {
-    let history = useHistory();
     const {register, handleSubmit, errors} = useForm();
     const onSubmit = (data) => {
         dispatchResetAction(data.otp, data.password, (response) => {
             if (response) {
-                setTimeout(() => window.location.replace('/'), 300)
+                setTimeout(() => window.location.replace('/#/'), 300)
             }
             toast.success('Your Password Was Reset!');
         }, (message) => toast.error(message))

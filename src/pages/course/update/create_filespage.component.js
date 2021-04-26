@@ -47,7 +47,7 @@ function CreateFiles({course, dispatchFetchAllChaptersAction, dispatchCreateFile
 
     const onSubmit = (data) => {
         dispatchCreateFileAction(chapter, data.title, data.description, data.file, () => {
-            setTimeout(() => window.location.replace('/course_builder/edit/' + course.id + '/3'), 300)
+            setTimeout(() => window.location.replace('/#/course_builder/edit/' + course.id + '/3'), 300)
             toast.success('Files Created Successfully!');
         }, (message) => toast.error(message))
         return false;

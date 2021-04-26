@@ -7,25 +7,38 @@ import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 import {toast} from "react-toastify";
 import {getCurrentUser} from "../redux/actions/authActions";
 import NotFoundPage from "./notfoundpage";
+import {Link} from "react-router-dom";
+import NotFound from "../components/notfound.component";
+import {getCourseById} from "../redux/actions/courseAction";
+import Comments from "../components/comments";
 
-const ChapterSinglePage = ({match, dispatchGetChapterByIdAction, chapter, chapters, user, dispatchFetchAllChaptersAction, loading, dispatchFetchCurrentUserAction, TrainerCoursesList, TraineeCoursesList}) => {
+const ChapterSinglePage = ({match, course, dispatchGetChapterByIdAction, chapter, chapters, user, dispatchFetchAllChaptersAction, loading, dispatchFetchCurrentUserAction, TrainerCoursesList, TraineeCoursesList, dispatchGetCourseByIdAction}) => {
 
     let {chapterId, courseId} = match.params;
 
     useEffect(() => {
         dispatchGetChapterByIdAction(chapterId)
-    }, [dispatchGetChapterByIdAction])
+    }, [dispatchGetChapterByIdAction, chapterId])
 
     useEffect(() => {
         dispatchFetchAllChaptersAction()
     }, [dispatchFetchAllChaptersAction])
 
     useEffect(() => {
-        dispatchFetchCurrentUserAction(user.userId, (response) => {
-            console.log('Courses Loaded')
+        dispatchFetchCurrentUserAction(user.userId, () => {
+            console.log('User Loaded')
         }, (message) => toast.error(message))
     }, [dispatchFetchCurrentUserAction, user.userId]);
+
+    useEffect(() => {
+        dispatchGetCourseByIdAction(courseId, () => {
+                console.log('Course Loaded')
+            }, (message) => toast.error(message)
+        );
+    }, [courseId, dispatchGetCourseByIdAction]);
+
     let myCourses = TrainerCoursesList && TrainerCoursesList.concat(TraineeCoursesList)
+
     return (
         !loading && chapter && myCourses && myCourses.includes(parseInt(courseId)) ? <div className='right_wrapper'>
                 <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -36,16 +49,16 @@ const ChapterSinglePage = ({match, dispatchGetChapterByIdAction, chapter, chapte
                     <div className="collapse navbar-collapse" id="chapters_list">
                         <ul className="navbar-nav">
                             <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <Link className="nav-link dropdown-toggle" to="#" id="navbarDropdownMenuLink" role="button"
+                                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Chapters
-                                </a>
+                                </Link>
                                 <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     {chapters && chapters.filter(item => (
                                         item.courseId == chapter.courseId
                                     )).map(chapter => {
                                         return <a key={chapter.id} className="dropdown-item"
-                                                  href={"/chapters/" + courseId + "/" + chapter.id}>{chapter.title}</a>
+                                                  href={"/#/chapters/" + courseId + "/" + chapter.id}>{chapter.title}</a>
                                     })}
                                 </div>
                             </li>
@@ -54,12 +67,15 @@ const ChapterSinglePage = ({match, dispatchGetChapterByIdAction, chapter, chapte
                         <h2 className='chapter_title'>
                             {chapter.title}
                         </h2>
-                        <a className='back_to_main_course btn view_btn join_link mr-2' href={'/courses/' + chapter.courseId}>
-                            Back to Course Details
-                        </a>
+                        <Link className='back_to_main_course btn view_btn join_link mr-2'
+                              to={'/courses/' + chapter.courseId}>
+                            <i className="fas fa-arrow-left"/> Back to Course Details
+                        </Link>
                         {
                             chapter.Exams && chapter.Exams.length ? (
-                                <a className='back_to_main_course btn  join_link' href={'/exam_submission/' + chapter.Exams[0].id}> Take Exam </a>
+                                <Link className='back_to_main_course btn  join_link'
+                                      to={'/exam_submission/' + chapter.Exams[0].id}><i
+                                    className="fas fa-graduation-cap"/> Take Exam </Link>
                             ) : ''
                         }
                     </div>
@@ -116,139 +132,77 @@ const ChapterSinglePage = ({match, dispatchGetChapterByIdAction, chapter, chapte
                         </Tabs>
                         <div className="col-12 p-3 description_single_course">
                             <div className="card-body">
-                                <h3 className="media-heading">Instructions</h3>
-                                <div className="single_card_elem">
-                                    <div className="desc_block">
-                                        <div dangerouslySetInnerHTML={{__html: chapter.instructions}}/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-12 p-3 description_single_course">
-                            <div className="card-body">
-                                <h3 className="media-heading">Comments</h3>
-                                <div className="single_card_elem">
-                                    <div className="comments">
-                                        <div className="single_person comment_single">
-                                            <div className="parent_comment">
-                                                <div className="person_meta">
-                                                    <div className="image">
-                                                        <img
-                                                            src='https://stitch-api-storage-prod.s3.ap-south-1.amazonaws.com/1616589205883.png'
-                                                            alt='ghgh'/>
-                                                    </div>
-                                                    <div className="name">
-                                                        John Doe
-                                                        <span>
-                                                        2 days ago
-                                                    </span>
-                                                    </div>
-                                                    <div className="designation">
-                                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                                        Adipisci architecto consequatur consequuntur delectus hic, iste
-                                                        labore modi molestias, natus nobis nostrum optio provident qui
-                                                        repellat repudiandae rerum saepe velit, voluptate.
-                                                        <a href={'/profile_view/'}>Reply</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className="single_person comment_single">
-                                                <div className="person_meta">
-                                                    <div className="image">
-                                                        <img
-                                                            src='https://stitch-api-storage-prod.s3.ap-south-1.amazonaws.com/1616589205883.png'
-                                                            alt='ghgh'/>
-                                                    </div>
-                                                    <div className="name">
-                                                        John Doe
-                                                        <span>
-                                                        2 days ago
-                                                    </span>
-                                                    </div>
-                                                    <div className="designation">
-                                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                                        Adipisci architecto consequatur consequuntur delectus hic, iste
-                                                        labore modi molestias, natus nobis nostrum optio provident qui
-                                                        repellat repudiandae rerum saepe velit, voluptate.
-                                                        <a href={'/profile_view/'}>Reply</a>
-                                                    </div>
-                                                </div>
+                                <div className="row">
+                                    <div className="col-8">
+                                        <h3 className="media-heading">Instructions</h3>
+                                        <div className="single_card_elem">
+                                            <div className="desc_block">
+                                                <div dangerouslySetInnerHTML={{__html: chapter.instructions}}/>
                                             </div>
                                         </div>
-                                        <div className="single_person comment_single">
-                                            <div className="parent_comment">
-                                                <div className="person_meta">
-                                                    <div className="image">
-                                                        <img
-                                                            src='https://stitch-api-storage-prod.s3.ap-south-1.amazonaws.com/1616589205883.png'
-                                                            alt='ghgh'/>
-                                                    </div>
-                                                    <div className="name">
-                                                        John Doe
-                                                        <span>
-                                                        2 days ago
-                                                    </span>
-                                                    </div>
-                                                    <div className="designation">
-                                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                                        Adipisci architecto consequatur consequuntur delectus hic, iste
-                                                        labore modi molestias, natus nobis nostrum optio provident qui
-                                                        repellat repudiandae rerum saepe velit, voluptate.
-                                                        <a href={'/profile_view/'}>Reply</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className="single_person comment_single">
-
-                                                <div className="person_meta">
-                                                    <div className="image">
-                                                        <img
-                                                            src='https://stitch-api-storage-prod.s3.ap-south-1.amazonaws.com/1616589205883.png'
-                                                            alt='ghgh'/>
-                                                    </div>
-                                                    <div className="name">
-                                                        John Doe
-                                                        <span>
-                                                        2 days ago
-                                                    </span>
-                                                    </div>
-                                                    <div className="designation">
-                                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                                        Adipisci architecto consequatur consequuntur delectus hic, iste
-                                                        labore modi molestias, natus nobis nostrum optio provident qui
-                                                        repellat repudiandae rerum saepe velit, voluptate.
-                                                        <a href={'/profile_view/'}>Reply</a>
-                                                    </div>
-                                                </div>
+                                    </div>
+                                    <div className="col-4 p-3">
+                                        <div className="card-body">
+                                            <div className="single_card_elem">
+                                                <h4>Trainers Of This Course</h4>
+                                                {
+                                                    course && course.Trainers && course.Trainers.length ? (
+                                                            course.Trainers.map(item => (
+                                                                <>
+                                                                    {
+                                                                        <div className='mb-2'>
+                                                                            <div className="single_person">
+                                                                                <div className="image single_person_img">
+                                                                                    <img src={item.pic ? item.pic : 'https://stitch-api-storage-prod.s3.ap-south-1.amazonaws.com/1616589205883.png'} alt={item.name}/>
+                                                                                </div>
+                                                                                <div className="person_meta">
+                                                                                    <div className="name">
+                                                                                        {item.name}
+                                                                                    </div>
+                                                                                    <div className="designation">
+                                                                                        <Link to={'/profile_view/' + item.id}><i className="fas fa-envelope"/> Message Trainer</Link>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    }
+                                                                </>
+                                                            ))) :
+                                                        (
+                                                            <NotFound/>
+                                                        )
+                                                }
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <Comments chapter={chapter} dispatchGetChapterByIdAction={dispatchGetChapterByIdAction}/>
                     </div>
                 </div>
             </div>
             : <NotFoundPage/>
-
     )
 }
 const mapDispatchToProps = dispatch => ({
     dispatchGetChapterByIdAction: (chapterId) => dispatch(getChapterById(chapterId)),
     dispatchFetchAllChaptersAction: () => dispatch(fetchAllChapters()),
     dispatchFetchCurrentUserAction: (userId, onSuccess) => dispatch(getCurrentUser(userId, onSuccess)),
+    dispatchGetCourseByIdAction: (courseId, onSuccess, onError) =>
+        dispatch(getCourseById(courseId, onSuccess, onError)),
 })
 
-const mapStateToProps = (state) => ({
-    loading: state.loading,
-    user: state.user,
-    chapters: state.chapters.chapters,
-    chapter: state.chapters.chapter,
-    TrainerCoursesList: state.users.TrainerCoursesList,
-    TraineeCoursesList: state.users.TraineeCoursesList
-});
+const mapStateToProps = (state) => (
+    console.log(state),
+        {
+            user: state.user,
+            chapters: state.chapters.chapters,
+            chapter: state.chapters.chapter,
+            TrainerCoursesList: state.users.TrainerCoursesList,
+            TraineeCoursesList: state.users.TraineeCoursesList,
+            course: state.courses.course
+        });
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChapterSinglePage)

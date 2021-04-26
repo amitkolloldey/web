@@ -1,9 +1,8 @@
-import ReactQuill from "react-quill";
 import {connect} from "react-redux";
 import {toast} from "react-toastify";
 import {useForm} from "react-hook-form";
-import {useState} from "react";
 import {updateChapter} from "../redux/actions/chapterAction";
+import React from "react";
 
 function EditModal({selectedChapter, dispatchEditChapterAction, course}) {
 
@@ -11,9 +10,8 @@ function EditModal({selectedChapter, dispatchEditChapterAction, course}) {
 
     const onSubmit = ( data) => {
 
-        dispatchEditChapterAction(selectedChapter.id, data.title, data.instructions, data.course_weight, course.id, (res) => {
-            // console.log(res)
-            setTimeout(() => window.location.replace('/course_builder/edit/' + course.id + '/2'), 300)
+        dispatchEditChapterAction(selectedChapter.id, data.title, data.instructions, data.course_weight, course.id, () => {
+            setTimeout(() => window.location.replace('/#/course_builder/edit/' + course.id + '/2'), 300)
             window.$('#editModal').modal('hide');
             toast.success('Chapters Updated Successfully!');
         },(message) => {

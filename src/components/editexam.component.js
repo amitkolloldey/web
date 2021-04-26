@@ -1,16 +1,14 @@
 import {connect} from "react-redux";
 import {toast} from "react-toastify";
 import {useForm} from "react-hook-form";
-import {useState} from "react";
+import React, {useState} from "react";
 import {updateExam} from "../redux/actions/chapterAction";
 
 function EditExamModal({selectedExam, dispatchUpdateExamAction, course}) {
 
     const {register, handleSubmit, errors} = useForm();
 
-    const [questions, setFields] = useState(
-        selectedExam.questions
-    );
+    const [questions, setFields] = useState(selectedExam.questions);
 
     function handleChangeQuestion(i, event) {
         const values = [...questions];
@@ -40,9 +38,13 @@ function EditExamModal({selectedExam, dispatchUpdateExamAction, course}) {
 
     const onSubmit = (data) => {
         dispatchUpdateExamAction(selectedExam.id, data.title, data.type, questions, () => {
-            setTimeout(() => window.location.replace('/course_builder/edit/' + course.id + '/4'), 300)
+            setTimeout(() => window.location.replace('/#/course_builder/edit/' + course.id + '/4'), 300)
+            window.$('#editExamModal').modal('hide');
             toast.success('Exam Updated Successfully!');
-        }, (message) => toast.error(message))
+        }, (message) => {
+            window.$('#editExamModal').modal('hide');
+            toast.error(`Error: ${message}`);
+        })
         return false;
     }
 
@@ -58,6 +60,7 @@ function EditExamModal({selectedExam, dispatchUpdateExamAction, course}) {
 
     function handleRemove(i) {
         const values = [...questions];
+        console.log(values)
         values.splice(i, 1);
         setFields(values);
     }
@@ -85,8 +88,8 @@ function EditExamModal({selectedExam, dispatchUpdateExamAction, course}) {
                                 {errors.type && (<p className='error'>Exam Type is required*</p>)}
                             </div>
                             {
-                                questions && questions.length ? (
-                                     questions.map((field, idx) => {
+                                questions  ? (
+                                    questions.map((field, idx) => {
                                             return (
 
                                                 <div key={`${field}-${idx}`} className='single_field_wrap'>

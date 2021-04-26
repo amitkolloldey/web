@@ -8,21 +8,21 @@ import Moment from "react-moment";
 import history from '../history';
 // Status = [ 'pending', 'approved', 'denied']
 
-const Requests = ({requests, user, dispatchHandleAction, dispatchDeleteAction}) => {
+const Requests = ({requests, dispatchHandleAction, dispatchDeleteAction}) => {
 
     let sentByUser = requests && requests.sentByUser && requests.sentByUser.length ? requests.sentByUser.filter(function (item) {
-        return item.status == 'pending'
+        return item.status === 'pending'
     }) : null
 
     let sentToUser = requests && requests.sentToUser && requests.sentToUser.length ? requests.sentToUser.filter(function (item) {
-        return item.status == 'pending'
+        return item.status === 'pending'
     }) : null
 
     const handleSubmitDeny = (e, data) => {
         e.preventDefault()
         dispatchHandleAction('denied', e.target.reqId.value, (response) => {
             if (response) {
-                history.push('/requests')
+                history.push('/#/requests')
             }
             toast.success('Updated Successfully!');
         }, (message) => toast.error(message))
@@ -34,7 +34,7 @@ const Requests = ({requests, user, dispatchHandleAction, dispatchDeleteAction}) 
         reqId = parseInt(reqId)
         dispatchDeleteAction(reqId, data, (response) => {
             if (response) {
-                history.replace('/requests')
+                history.replace('/#/requests')
             }
             toast.success('Deleted Successfully!');
         }, (message) => toast.error(message))
@@ -44,7 +44,7 @@ const Requests = ({requests, user, dispatchHandleAction, dispatchDeleteAction}) 
         e.preventDefault()
         dispatchHandleAction('approved', e.target.reqId.value, (response) => {
             if (response) {
-                setTimeout(() => window.location.replace('/requests'), 300)
+                setTimeout(() => window.location.replace('/#/requests'), 300)
             }
             toast.success('Updated Successfully!');
         }, (message) => toast.error(message))
@@ -86,24 +86,24 @@ const Requests = ({requests, user, dispatchHandleAction, dispatchDeleteAction}) 
                                                     </form>
                                                     {
                                                         item.type === 'trainer_invite' ? (
-                                                            <NavLink to={'/orgs/' + item.orgId}
+                                                            <NavLink to={'/#/orgs/' + item.orgId}
                                                                      className="btn join_link view_btn ">View
                                                                 Organization</NavLink>) : ''
                                                     }
                                                     {
                                                         item.type === 'trainee_invite' ? (
-                                                            <a href={'/courses/' + item.courseId}
+                                                            <a href={'/#/courses/' + item.courseId}
                                                                className="btn join_link view_btn ">View Course</a>) : ''
                                                     }
                                                     {
                                                         item.type === 'trainee_enrollment' ? (
-                                                            <a href={'/profile_view/' + item.fromId}
+                                                            <a href={'/#/profile_view/' + item.fromId}
                                                                className="btn join_link view_btn ">View
                                                                 Profile</a>) : ''
                                                     }
                                                     {
                                                         item.type === 'trainer_registration' ? (
-                                                            <a href={'/profile_view/' + item.fromId}
+                                                            <a href={'/#/profile_view/' + item.fromId}
                                                                className="btn join_link view_btn ">View
                                                                 Profile</a>) : ''
                                                     }

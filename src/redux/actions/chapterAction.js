@@ -22,7 +22,16 @@ export const fetchAllChapters = (data, onSuccess, onError) => ({
         postProcessError: onError
     }
 })
-
+export const createComment = (data, onSuccess, onError) => ({
+    type: constants.API,
+    payload: {
+        method: 'POST',
+        url: 'comments',
+        data,
+        postProcessSuccess: onSuccess,
+        postProcessError: onError
+    }
+})
 const setSingleChapter = (data) => {
     return {
         type: constants.SET_SINGLE_CHAPTER,
